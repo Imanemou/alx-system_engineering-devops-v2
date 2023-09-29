@@ -1,4 +1,8 @@
-splays the PID along with the process name, of 
-#+ processes whose name contains the word "bash".
+splays "To infinity and beyond" indefinitely,
+# with a "sleep 2" in between each iteration.
 
-pgrep bash -l
+while true
+do
+  echo "To infinity and beyond"
+  sleep 2
+done
