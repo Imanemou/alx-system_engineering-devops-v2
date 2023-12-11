@@ -1,0 +1,44 @@
+Q: What happens when you type google.com in your browser?
+Upon typing in "google.com" and pressing Enter, the browser takes a number of steps which can be outlined as:
+Resolve IP address of the URL via DNS
+Generate an HTTP request with headers (accept, user-agent, cookie, etc)
+Open an HTTP connection to the resolved IP address
+Send the request to the server
+Receive the response from the server
+Parse response headers
+Depending on the response headers, perform additional operations
+Decompress the response body if it's compressed (e.g. gzipped)
+Parse the HTML code inside the response body
+Resolve any additional resources (images, stylesheets, scripts, etc)
+Start loading those resources via their URLs using the same steps
+Render the HTML as soon as required resources are loaded, continue loading remaining resources in background
+When all the resources are loaded, close the HTTP connection
+Q: What are "additional operations" that a browser can perform depending on response headers?
+For example, it can redirect to a different resource on a 301/302/303/307 status code and a location header.
+Browsers also respect policies regulated by the server, e.g. cache-control header which instructs how the resources can be cached.
+Response headers may also contain information regarding the response content, including its type, length, and encoding, which may be used by the browser to properly display the content.
+Q: What is DNS?
+DNS, which stands for Domain Name System, is essentially a dictionary that maps URLs of Internet resources to their corresponding IP addresses. Most people call it "the phonebook of the Internet".
+In most cases, the IP of the first outbound DNS server is provided by the ISP, which can be configured on a per-router or per-machine basis. It's also possible to use any other DNS server by setting the corresponding IP address in system's settings.
+Any individual DNS server may route a query to a different DNS server if it doesn't have the requested DNS record.
+Browsers and operating systems have their own local DNS cache which helps avoid querying DNS servers every time.
+Q: How are DNS records kept up to date?
+When setting up a domain, the owner configures it by specifying name servers given by their hosting provider. These changes reflect slowly because once the records change on the name server, an adjacent DNS server may still use its older cached records for some time.
+Since a request from a user's device to a remote server usually takes multiple hops through different DNS servers each with their own local cache, it may take up to 72 hours before the correct IP address is fully propagated.
+The process of updating DNS records on changes is called "DNS propagation".
+Q: What is a web server?
+Web server is a piece of software that handles HTTP requests, e.g. IIS, nginx, Apache, Kestrel, etc. It receives an incoming request from a client (e.g. browser), routes it to a specific handler based on request parameters (i.e. URL, headers, content), processes it, and then returns a response.
+------------------------------------------------------
+When a user types www.google.com in their browser which will be the client. The first step will be converting www.google.com to a computer friendly IP address and this will be the address of our server. This is required since web browsers interact through Internet Protocol (IP) addresses.
+To do this the user’s Internet Service Provider will first make a DNS Request. This is done through the DNS (Domain Name System). The role of the DNS is to translate domain names into IP addresses. The domain name acts as a simpler version of the address of our servers e.g. www.foobar.com will represent 8.8.8.8. There are 4 DNS servers involved and they are the DNS recursor, Root namesever, TLD (top level domain) server and the Authoritative server.
+Once the DNS has made the translation it responds to the web browser with the IP address of the domain requested initially. The browser can then make a HTTP request to this IP address. Just using HTTP requests leaves the network vulnerable and the information can be intercepted and read since it is not encrypted.
+To ensure that our communication is secure the web uses an SSL certificate. An SSL certificate is a digital certificate that authenticates a website’s identity and enables an encrypted connection. SSL stands for Secure Sockets Layer, a security protocol that creates an encrypted link between a web server and a web browser. How an SSL certificate works can be broken down into the following steps:
+A browser or server attempts to connect to a web server secured with SSL.
+The browser or server requests that the web server identifies itself.
+The web server sends the browser or server a copy of its SSL certificate in response.
+The browser or server checks to see whether it trusts the SSL certificate. If it does, it signals this to the web server.
+The web server then returns a digitally signed acknowledgment to start an SSL encrypted session.
+Encrypted data is shared between the browser or server and the webserver
+On most web infrastructure there will be a load balancer whose job will be to efficiently distribute network traffic across a group of servers. This is necessary since companies often have more than one server. This helps in scaling up in a cost effective manner, ensures that no one server is overworked, redundancy and improves flexibility.
+To help increase security of their web servers Google may have firewalls whose purpose will be to secure their servers and protect them from cyber attacks, preventing unauthorized access of critical data. The firewall will monitor the traffic being sent from the load balancer to the web servers.
+
